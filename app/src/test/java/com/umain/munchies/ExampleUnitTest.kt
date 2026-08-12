@@ -1,4 +1,4 @@
-package se.tattooink.Munchies
+package com.umain.munchies
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package se.tattooink.Munchies.ui.theme
+package com.umain.munchies.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

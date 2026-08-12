@@ -1,4 +1,4 @@
-package se.tattooink.Munchies
+package com.umain.munchies
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import se.tattooink.Munchies.ui.theme.MunchiesTheme
+import com.umain.munchies.ui.theme.MunchiesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

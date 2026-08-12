@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "se.tattooink.Munchies"
+    namespace = "com.umain.munchies"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "se.tattooink.Munchies"
+        applicationId = "com.umain.munchies"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
