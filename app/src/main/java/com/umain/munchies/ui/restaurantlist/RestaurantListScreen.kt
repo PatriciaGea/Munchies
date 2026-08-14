@@ -50,12 +50,18 @@ fun RestaurantListScreen(
                             )
                         }
                     }
-
+                    val filteredRestaurants = if (uiState.selectedFilterIds.isEmpty()) {
+                        uiState.restaurants
+                    } else {
+                        uiState.restaurants.filter { restaurant ->
+                            uiState.selectedFilterIds.all { it in restaurant.filterIds }
+                        }
+                    }
                     LazyColumn(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(viewModel.filteredRestaurants) { restaurant ->
+                        items(filteredRestaurants) { restaurant ->
                             RestaurantCard(
                                 restaurant = restaurant,
                                 onClick = { onRestaurantClick(restaurant.id) }

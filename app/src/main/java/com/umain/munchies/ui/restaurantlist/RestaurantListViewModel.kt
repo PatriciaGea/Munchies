@@ -54,13 +54,4 @@ class RestaurantListViewModel @Inject constructor(
             current.copy(selectedFilterIds = newSelection)
         }
     }
-
-    val filteredRestaurants: List<com.umain.munchies.domain.model.Restaurant>
-        get() {
-            val state = _uiState.value
-            if (state.selectedFilterIds.isEmpty()) return state.restaurants
-            return state.restaurants.filter { restaurant ->
-                state.selectedFilterIds.all { it in restaurant.filterIds }
-            }
-        }
 }
