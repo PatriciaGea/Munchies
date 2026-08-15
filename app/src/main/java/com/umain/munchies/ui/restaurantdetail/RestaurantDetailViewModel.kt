@@ -3,6 +3,7 @@ package com.umain.munchies.ui.restaurantdetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umain.munchies.domain.usecase.GetFiltersUseCase
 import com.umain.munchies.domain.usecase.GetOpenStatusUseCase
 import com.umain.munchies.domain.usecase.GetRestaurantsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class RestaurantDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getRestaurantsUseCase: GetRestaurantsUseCase,
+    private val getFiltersUseCase: GetFiltersUseCase,
     private val getOpenStatusUseCase: GetOpenStatusUseCase
 ) : ViewModel() {
 
@@ -34,10 +36,11 @@ class RestaurantDetailViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val restaurant = getRestaurantsUseCase().find { it.id == restaurantId }
+                val filters = restaurant?.let { getFiltersUseCase(it.filterIds) } ?: emptyList()
                 val isOpen = getOpenStatusUseCase(restaurantId)
 
                 _uiState.update {
-                    it.copy(isLoading = false, restaurant = restaurant, isOpen = isOpen)
+                    it.copy(isLoading = false, restaurant = restaurant, filters = filters, isOpen = isOpen)
                 }
             } catch (e: Exception) {
                 _uiState.update {

@@ -2,7 +2,6 @@ package com.umain.munchies.ui.restaurantdetail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,6 +40,9 @@ fun RestaurantDetailScreen(
                         )
                         RestaurantInfoCard(
                             name = uiState.restaurant!!.name,
+                            subtitle = uiState.restaurant!!.filterIds
+                                .mapNotNull { id -> uiState.filters.find { it.id == id }?.name }
+                                .joinToString(" • "),
                             isOpen = uiState.isOpen,
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
