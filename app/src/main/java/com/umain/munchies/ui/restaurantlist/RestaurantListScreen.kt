@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.umain.munchies.ui.restaurantlist.components.FilterChip
 import com.umain.munchies.ui.restaurantlist.components.RestaurantCard
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Brush
+import com.umain.munchies.ui.restaurantlist.components.HeaderSection
 
 @Composable
 fun RestaurantListScreen(
@@ -37,6 +40,29 @@ fun RestaurantListScreen(
             }
             else -> {
                 Column(modifier = Modifier.fillMaxSize()) {
+                    val filteredRestaurants = if (uiState.selectedFilterIds.isEmpty()) {
+                        uiState.restaurants
+                    } else {
+                        uiState.restaurants.filter { restaurant ->
+                            uiState.selectedFilterIds.all { it in restaurant.filterIds }
+                        }
+                    }
+                    HeaderSection()
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(9.dp)
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        MaterialTheme.colorScheme.background,
+                                        MaterialTheme.colorScheme.background.copy(alpha = 0f)
+                                    )
+                                )
+                            )
+                    )
+
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -50,20 +76,19 @@ fun RestaurantListScreen(
                             )
                         }
                     }
-                    val filteredRestaurants = if (uiState.selectedFilterIds.isEmpty()) {
-                        uiState.restaurants
-                    } else {
-                        uiState.restaurants.filter { restaurant ->
-                            uiState.selectedFilterIds.all { it in restaurant.filterIds }
-                        }
-                    }
+
                     LazyColumn(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(filteredRestaurants) { restaurant ->
+                            val subtitle = restaurant.filterIds
+                                .mapNotNull { id -> uiState.filters.find { it.id == id }?.name }
+                                .joinToString(" • ")
+
                             RestaurantCard(
                                 restaurant = restaurant,
+                                subtitle = subtitle,
                                 onClick = { onRestaurantClick(restaurant.id) }
                             )
                         }
