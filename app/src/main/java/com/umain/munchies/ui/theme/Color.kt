@@ -12,3 +12,4 @@ val MunchiesRatingText = Color(0xFF50555C)
 val MunchiesBackgroundDark = Color(0xFF121212)
 val MunchiesTextDark = Color(0xFFF0F0F0)
 val MunchiesSubtitleDark = Color(0xFFAAAAAA)
+val MunchiesCardBackground = Color.White
