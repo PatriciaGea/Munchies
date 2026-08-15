@@ -72,20 +72,28 @@ fun RestaurantCard(
                         tint = Color(0xFFFF5252),
                         modifier = Modifier.size(10.dp)
                     )
-                    Text(text = "${restaurant.deliveryTimeMinutes} min", fontSize = 10.sp, color = MunchiesRatingText)
+                    Text(
+                        text = "${restaurant.deliveryTimeMinutes} min",
+                        fontSize = 10.sp,
+                        color = MunchiesRatingText
+                    )
                 }
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(3.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = null,
-                    tint = Color(0xFFFFC107),
-                    modifier = Modifier.size(12.dp)
-                )
-                Text(text = "${restaurant.rating}", fontSize = 10.sp, color = MunchiesRatingText)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(3.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = null,
+                        tint = Color(0xFFFFC107),
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Text(
+                        text = "${restaurant.rating}",
+                        fontSize = 10.sp,
+                        color = MunchiesRatingText
+                    )
+                }
             }
         }
     }
