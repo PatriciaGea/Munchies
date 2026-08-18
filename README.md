@@ -4,7 +4,7 @@ A scalable, production-style Android application built with modern Kotlin and Je
 
 ## Munchies
 
-A mobile food delivery app built as a technical assessment for Umain. It helps users discover restaurants through multi-select filters and view restaurant details, including live open/closed status.
+A mobile food delivery app. It helps users discover restaurants through multi-select filters and view restaurant details, including live open/closed status.
 
 <img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/Screenshotmunchies.png" height="426"> <img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/Screenshotmunchies2.png" height="426">
 <img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/munchies.gif" width="240" height="426">
