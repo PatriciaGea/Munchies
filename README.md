@@ -1,21 +1,13 @@
 ## Project Goal
 
 A scalable, production-style Android application built with modern Kotlin and Jetpack Compose, following Clean Architecture and industry best practices, developed by Patricia Gea Rodrigues.
-# Munchies
+
+## Munchies
 
 A mobile food delivery app built as a technical assessment for Umain. It helps users discover restaurants through multi-select filters and view restaurant details, including live open/closed status.
 
-<!--
-Add screenshots and a GIF here before sharing the repo, e.g.:
-
-| Restaurant List | Restaurant Detail |
-|---|---|
-| ![Restaurant list screen](docs/screenshots/list.png) | ![Restaurant detail screen](docs/screenshots/detail.png) |
-
-![App demo](docs/screenshots/demo.gif)
-
-Suggested capture: open the app → scroll the list → tap a filter chip (show multi-select) → tap a restaurant card → show the Open/Closed status on the detail screen → go back.
--->
+<img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/Screenshotmunchies.png" height="426"> <img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/Screenshotmunchies2.png" height="426">
+<img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/munchies.gif" width="240" height="426">
 
 ## Features
 
@@ -26,7 +18,7 @@ Suggested capture: open the app → scroll the list → tap a filter chip (show 
 - Tap a restaurant to open a detail screen
 - Show whether a restaurant is currently open or closed
 - Display restaurant rating, delivery time and image
-- Load all images (restaurant photos, filter icons) directly from the API — no bundled assets except the Umain logo, exported from Figma as instructed
+- Load all images (restaurant photos, filter icons) directly from the API, no bundled assets except the Umain logo, exported from Figma as instructed
 - Light/dark theme, following the device's system setting
 
 ## Tech Stack
@@ -34,25 +26,25 @@ Suggested capture: open the app → scroll the list → tap a filter chip (show 
 | Technology | Why |
 |---|---|
 | **Kotlin** | Official language for Android |
-| **Jetpack Compose** | Umain's own stack for this test; declarative UI is the current industry standard over the legacy View system |
+| **Jetpack Compose** | Declarative UI is the current industry standard over the legacy View system |
 | **Material 3** | Google's current design system for Compose; enables consistent theming and typography with minimal setup |
-| **Hilt** | Google-recommended dependency injection for Android, built on Dagger with less boilerplate |
-| **Retrofit + OkHttp** | Industry-standard REST client with first-class coroutine support |
-| **Kotlin Serialization** | Type-safe JSON parsing, official Kotlin library, avoids the reflection-based pitfalls of Gson |
+| **Hilt** | Google-recommended dependency injection for Android |
+| **Retrofit + OkHttp** | Industry-standard REST client with coroutine support |
+| **Kotlin Serialization** | Type-safe JSON parsing |
 | **Coil 3** | Image loading built for Compose (`AsyncImage`), lighter and more Compose-idiomatic than Glide |
 | **Navigation Compose** | Official navigation library for Compose destinations |
 | **Coroutines + Flow** | Structured concurrency for network calls and reactive UI state |
 
 ## Concepts Practiced
 
-- **Clean Architecture** (data / domain / ui layers, each depending only inward)
-- **MVVM** with unidirectional data flow (`StateFlow<UiState>`)
+- **Clean Architecture** (data / domain /UI layers, each depending only on inner layers)
+- **MVVM** with a clear data flow (`StateFlow<UiState>`)
 - **Repository pattern** with an interface in `domain` and its implementation in `data`, so the ViewModel never depends on Retrofit directly
-- **Use Cases** as single-purpose, testable classes between the ViewModel and the Repository
+- **Use Cases** as single-purpose
 - **DTO → Domain Model mapping**, keeping API response shapes isolated from the rest of the app
 - **Dependency Injection** with Hilt modules (`@Module`, `@Binds`, `@Provides`)
 - **Concurrent network calls** with `async`/`coroutineScope` (the API has no bulk filter endpoint, so filter details are fetched in parallel by ID)
-- **Sealed UI state** per screen (loading / success / error) instead of scattered boolean flags
+- **UI state** per screen (loading / success / error) 
 - **Design system fidelity**: implementing exact spacing, typography and colors from a Figma file using Figma's MCP integration
 - **Deliberate design exceptions**: documenting when a component intentionally breaks from the app's dynamic theme (e.g. a fixed white card background required by the Figma design, even in dark mode) instead of letting it happen by accident
 
@@ -109,7 +101,7 @@ com.umain.munchies/
 
 ## API
 
-The application consumes the Umain Food Delivery API:
+The application consumes Food Delivery API:
 
 - `GET /restaurants` — all restaurants, including filter IDs, rating, delivery time and image
 - `GET /filter/{id}` — details for a single filter (name, icon), fetched in parallel per unique filter ID found in the restaurant list
@@ -127,6 +119,9 @@ Swagger docs: https://food-delivery.umain.io/swagger/
 ## Challenges & Learnings
 
 - **Stale build cache**: a Gradle Daemon stuck with an old incremental state kept producing an outdated APK, so UI changes stopped appearing on the emulator and physical device even though the source code and the Compose Preview were correct. Diagnosed by comparing APK output timestamps against the source file's last edit, then resolved with `gradlew --stop`, clearing `app/build` and `.gradle`, and a full `gradlew assembleDebug --rerun-tasks`. Takeaway: when a UI change doesn't show up but Preview renders it correctly, suspect the build/install pipeline before suspecting the code.
+
+<img src="https://github.com/PatriciaGea/Munchies/blob/master/app/src/main/res/drawable/preview.png" height="400">
+
 - **AGP 9 migration friction**: the new Android Gradle Plugin's built-in Kotlin support initially conflicted with KSP (required by Hilt) and with the traditional `org.jetbrains.kotlin.android` plugin. Resolved by explicitly disabling the new DSL behavior (`android.builtInKotlin=false`, `android.newDsl=false`) while keeping KSP and the standard Kotlin plugin — a good example of dealing with breaking changes in a fast-moving toolchain.
 - **No bulk filter endpoint**: the API only exposes `GET /filter/{id}` for a single filter at a time. Solved by collecting the distinct filter IDs referenced across all restaurants and fetching them concurrently with `async`/`coroutineScope`, instead of sequential calls.
 - **Design fidelity vs. theming**: some UI elements (like the restaurant card background) needed to stay a fixed white regardless of light/dark mode, per the Figma spec. Instead of hardcoding `Color.White` inline, this was captured as a named, documented token (`MunchiesCardBackground`) so the exception is explicit and easy to revisit.
@@ -135,4 +130,7 @@ Swagger docs: https://food-delivery.umain.io/swagger/
 
 Patricia Gea Rodrigues
 https://patriciageadev.vercel.app/
+
 patricia.gea@gmail.com
+
+
